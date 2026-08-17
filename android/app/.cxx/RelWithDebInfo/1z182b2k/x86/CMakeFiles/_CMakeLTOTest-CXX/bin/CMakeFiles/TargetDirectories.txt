@@ -1,0 +1,4 @@
+C:/Users/Jai/OneDrive/Desktop/wholesaler app/mobile/android/app/.cxx/RelWithDebInfo/1z182b2k/x86/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/foo.dir
+C:/Users/Jai/OneDrive/Desktop/wholesaler app/mobile/android/app/.cxx/RelWithDebInfo/1z182b2k/x86/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/boo.dir
+C:/Users/Jai/OneDrive/Desktop/wholesaler app/mobile/android/app/.cxx/RelWithDebInfo/1z182b2k/x86/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/edit_cache.dir
+C:/Users/Jai/OneDrive/Desktop/wholesaler app/mobile/android/app/.cxx/RelWithDebInfo/1z182b2k/x86/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/rebuild_cache.dir

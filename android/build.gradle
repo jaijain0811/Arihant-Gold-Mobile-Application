@@ -20,14 +20,20 @@ buildscript {
 
 apply plugin: "com.facebook.react.rootproject"
 
-subprojects {
-    afterEvaluate { project ->
-        if (project.hasProperty("android")) {
-            project.android {
-                packagingOptions {
-                    pickFirst '**/lib*.so'
-                    doNotStrip '**/lib*.so'
-                }
+subprojects { p ->
+    p.plugins.withId("com.android.application") {
+        p.android {
+            packagingOptions {
+                pickFirst '**/lib*.so'
+                doNotStrip '**/lib*.so'
+            }
+        }
+    }
+    p.plugins.withId("com.android.library") {
+        p.android {
+            packagingOptions {
+                pickFirst '**/lib*.so'
+                doNotStrip '**/lib*.so'
             }
         }
     }
