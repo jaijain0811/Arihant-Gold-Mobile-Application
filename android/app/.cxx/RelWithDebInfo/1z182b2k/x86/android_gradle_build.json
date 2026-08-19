@@ -29,9 +29,9 @@
       "artifactName": "appmodules",
       "output": "C:\\Users\\Jai\\OneDrive\\Desktop\\wholesaler app\\mobile\\android\\app\\build\\intermediates\\cxx\\RelWithDebInfo\\1z182b2k\\obj\\x86\\libappmodules.so",
       "runtimeFiles": [
-        "C:\\Users\\Jai\\AppData\\Local\\gradle-home\\caches\\9.3.1\\transforms\\9a8ca31572e63227f44714ceb36a5b06\\workspace\\transformed\\jetified-fbjni-0.7.0\\prefab\\modules\\fbjni\\libs\\android.x86\\libfbjni.so",
-        "C:\\Users\\Jai\\AppData\\Local\\gradle-home\\caches\\9.3.1\\transforms\\3168756b9e4aeb28813b3f80f7bba0ca\\workspace\\transformed\\jetified-react-android-0.86.0-release\\prefab\\modules\\jsi\\libs\\android.x86\\libjsi.so",
-        "C:\\Users\\Jai\\AppData\\Local\\gradle-home\\caches\\9.3.1\\transforms\\3168756b9e4aeb28813b3f80f7bba0ca\\workspace\\transformed\\jetified-react-android-0.86.0-release\\prefab\\modules\\reactnative\\libs\\android.x86\\libreactnative.so"
+        "C:\\gh\\caches\\9.3.1\\transforms\\9a8ca31572e63227f44714ceb36a5b06\\workspace\\transformed\\jetified-fbjni-0.7.0\\prefab\\modules\\fbjni\\libs\\android.x86\\libfbjni.so",
+        "C:\\gh\\caches\\9.3.1\\transforms\\3168756b9e4aeb28813b3f80f7bba0ca\\workspace\\transformed\\jetified-react-android-0.86.0-release\\prefab\\modules\\jsi\\libs\\android.x86\\libjsi.so",
+        "C:\\gh\\caches\\9.3.1\\transforms\\3168756b9e4aeb28813b3f80f7bba0ca\\workspace\\transformed\\jetified-react-android-0.86.0-release\\prefab\\modules\\reactnative\\libs\\android.x86\\libreactnative.so"
       ]
     },
     "react_codegen_RNGoogleSignInCGen::@337b7b353bd94a4215c0": {
@@ -55,9 +55,9 @@
       "artifactName": "react_codegen_rnscreens",
       "output": "C:\\Users\\Jai\\OneDrive\\Desktop\\wholesaler app\\mobile\\android\\app\\build\\intermediates\\cxx\\RelWithDebInfo\\1z182b2k\\obj\\x86\\libreact_codegen_rnscreens.so",
       "runtimeFiles": [
-        "C:\\Users\\Jai\\AppData\\Local\\gradle-home\\caches\\9.3.1\\transforms\\3168756b9e4aeb28813b3f80f7bba0ca\\workspace\\transformed\\jetified-react-android-0.86.0-release\\prefab\\modules\\reactnative\\libs\\android.x86\\libreactnative.so",
-        "C:\\Users\\Jai\\AppData\\Local\\gradle-home\\caches\\9.3.1\\transforms\\3168756b9e4aeb28813b3f80f7bba0ca\\workspace\\transformed\\jetified-react-android-0.86.0-release\\prefab\\modules\\jsi\\libs\\android.x86\\libjsi.so",
-        "C:\\Users\\Jai\\AppData\\Local\\gradle-home\\caches\\9.3.1\\transforms\\9a8ca31572e63227f44714ceb36a5b06\\workspace\\transformed\\jetified-fbjni-0.7.0\\prefab\\modules\\fbjni\\libs\\android.x86\\libfbjni.so"
+        "C:\\gh\\caches\\9.3.1\\transforms\\3168756b9e4aeb28813b3f80f7bba0ca\\workspace\\transformed\\jetified-react-android-0.86.0-release\\prefab\\modules\\reactnative\\libs\\android.x86\\libreactnative.so",
+        "C:\\gh\\caches\\9.3.1\\transforms\\3168756b9e4aeb28813b3f80f7bba0ca\\workspace\\transformed\\jetified-react-android-0.86.0-release\\prefab\\modules\\jsi\\libs\\android.x86\\libjsi.so",
+        "C:\\gh\\caches\\9.3.1\\transforms\\9a8ca31572e63227f44714ceb36a5b06\\workspace\\transformed\\jetified-fbjni-0.7.0\\prefab\\modules\\fbjni\\libs\\android.x86\\libfbjni.so"
       ]
     },
     "react_codegen_rnsvg::@4f40eb209d0c0b4a3b65": {
@@ -66,9 +66,9 @@
       "artifactName": "react_codegen_rnsvg",
       "output": "C:\\Users\\Jai\\OneDrive\\Desktop\\wholesaler app\\mobile\\android\\app\\build\\intermediates\\cxx\\RelWithDebInfo\\1z182b2k\\obj\\x86\\libreact_codegen_rnsvg.so",
       "runtimeFiles": [
-        "C:\\Users\\Jai\\AppData\\Local\\gradle-home\\caches\\9.3.1\\transforms\\3168756b9e4aeb28813b3f80f7bba0ca\\workspace\\transformed\\jetified-react-android-0.86.0-release\\prefab\\modules\\reactnative\\libs\\android.x86\\libreactnative.so",
-        "C:\\Users\\Jai\\AppData\\Local\\gradle-home\\caches\\9.3.1\\transforms\\3168756b9e4aeb28813b3f80f7bba0ca\\workspace\\transformed\\jetified-react-android-0.86.0-release\\prefab\\modules\\jsi\\libs\\android.x86\\libjsi.so",
-        "C:\\Users\\Jai\\AppData\\Local\\gradle-home\\caches\\9.3.1\\transforms\\9a8ca31572e63227f44714ceb36a5b06\\workspace\\transformed\\jetified-fbjni-0.7.0\\prefab\\modules\\fbjni\\libs\\android.x86\\libfbjni.so"
+        "C:\\gh\\caches\\9.3.1\\transforms\\3168756b9e4aeb28813b3f80f7bba0ca\\workspace\\transformed\\jetified-react-android-0.86.0-release\\prefab\\modules\\reactnative\\libs\\android.x86\\libreactnative.so",
+        "C:\\gh\\caches\\9.3.1\\transforms\\3168756b9e4aeb28813b3f80f7bba0ca\\workspace\\transformed\\jetified-react-android-0.86.0-release\\prefab\\modules\\jsi\\libs\\android.x86\\libjsi.so",
+        "C:\\gh\\caches\\9.3.1\\transforms\\9a8ca31572e63227f44714ceb36a5b06\\workspace\\transformed\\jetified-fbjni-0.7.0\\prefab\\modules\\fbjni\\libs\\android.x86\\libfbjni.so"
       ]
     },
     "react_codegen_safeareacontext::@7984cd80db47aa7b952a": {
@@ -77,9 +77,9 @@
       "artifactName": "react_codegen_safeareacontext",
       "output": "C:\\Users\\Jai\\OneDrive\\Desktop\\wholesaler app\\mobile\\android\\app\\build\\intermediates\\cxx\\RelWithDebInfo\\1z182b2k\\obj\\x86\\libreact_codegen_safeareacontext.so",
       "runtimeFiles": [
-        "C:\\Users\\Jai\\AppData\\Local\\gradle-home\\caches\\9.3.1\\transforms\\9a8ca31572e63227f44714ceb36a5b06\\workspace\\transformed\\jetified-fbjni-0.7.0\\prefab\\modules\\fbjni\\libs\\android.x86\\libfbjni.so",
-        "C:\\Users\\Jai\\AppData\\Local\\gradle-home\\caches\\9.3.1\\transforms\\3168756b9e4aeb28813b3f80f7bba0ca\\workspace\\transformed\\jetified-react-android-0.86.0-release\\prefab\\modules\\jsi\\libs\\android.x86\\libjsi.so",
-        "C:\\Users\\Jai\\AppData\\Local\\gradle-home\\caches\\9.3.1\\transforms\\3168756b9e4aeb28813b3f80f7bba0ca\\workspace\\transformed\\jetified-react-android-0.86.0-release\\prefab\\modules\\reactnative\\libs\\android.x86\\libreactnative.so"
+        "C:\\gh\\caches\\9.3.1\\transforms\\9a8ca31572e63227f44714ceb36a5b06\\workspace\\transformed\\jetified-fbjni-0.7.0\\prefab\\modules\\fbjni\\libs\\android.x86\\libfbjni.so",
+        "C:\\gh\\caches\\9.3.1\\transforms\\3168756b9e4aeb28813b3f80f7bba0ca\\workspace\\transformed\\jetified-react-android-0.86.0-release\\prefab\\modules\\jsi\\libs\\android.x86\\libjsi.so",
+        "C:\\gh\\caches\\9.3.1\\transforms\\3168756b9e4aeb28813b3f80f7bba0ca\\workspace\\transformed\\jetified-react-android-0.86.0-release\\prefab\\modules\\reactnative\\libs\\android.x86\\libreactnative.so"
       ]
     }
   },

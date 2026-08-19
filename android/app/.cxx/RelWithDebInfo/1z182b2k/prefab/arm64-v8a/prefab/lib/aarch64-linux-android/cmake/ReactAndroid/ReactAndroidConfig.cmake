@@ -1,8 +1,8 @@
 if(NOT TARGET ReactAndroid::hermestooling)
 add_library(ReactAndroid::hermestooling SHARED IMPORTED)
 set_target_properties(ReactAndroid::hermestooling PROPERTIES
-    IMPORTED_LOCATION "C:/Users/Jai/AppData/Local/gradle-home/caches/9.3.1/transforms/3168756b9e4aeb28813b3f80f7bba0ca/workspace/transformed/jetified-react-android-0.86.0-release/prefab/modules/hermestooling/libs/android.arm64-v8a/libhermestooling.so"
-    INTERFACE_INCLUDE_DIRECTORIES "C:/Users/Jai/AppData/Local/gradle-home/caches/9.3.1/transforms/3168756b9e4aeb28813b3f80f7bba0ca/workspace/transformed/jetified-react-android-0.86.0-release/prefab/modules/hermestooling/include"
+    IMPORTED_LOCATION "C:/gh/caches/9.3.1/transforms/3168756b9e4aeb28813b3f80f7bba0ca/workspace/transformed/jetified-react-android-0.86.0-release/prefab/modules/hermestooling/libs/android.arm64-v8a/libhermestooling.so"
+    INTERFACE_INCLUDE_DIRECTORIES "C:/gh/caches/9.3.1/transforms/3168756b9e4aeb28813b3f80f7bba0ca/workspace/transformed/jetified-react-android-0.86.0-release/prefab/modules/hermestooling/include"
     INTERFACE_LINK_LIBRARIES ""
 )
 endif()
@@ -10,8 +10,8 @@ endif()
 if(NOT TARGET ReactAndroid::jsi)
 add_library(ReactAndroid::jsi SHARED IMPORTED)
 set_target_properties(ReactAndroid::jsi PROPERTIES
-    IMPORTED_LOCATION "C:/Users/Jai/AppData/Local/gradle-home/caches/9.3.1/transforms/3168756b9e4aeb28813b3f80f7bba0ca/workspace/transformed/jetified-react-android-0.86.0-release/prefab/modules/jsi/libs/android.arm64-v8a/libjsi.so"
-    INTERFACE_INCLUDE_DIRECTORIES "C:/Users/Jai/AppData/Local/gradle-home/caches/9.3.1/transforms/3168756b9e4aeb28813b3f80f7bba0ca/workspace/transformed/jetified-react-android-0.86.0-release/prefab/modules/jsi/include"
+    IMPORTED_LOCATION "C:/gh/caches/9.3.1/transforms/3168756b9e4aeb28813b3f80f7bba0ca/workspace/transformed/jetified-react-android-0.86.0-release/prefab/modules/jsi/libs/android.arm64-v8a/libjsi.so"
+    INTERFACE_INCLUDE_DIRECTORIES "C:/gh/caches/9.3.1/transforms/3168756b9e4aeb28813b3f80f7bba0ca/workspace/transformed/jetified-react-android-0.86.0-release/prefab/modules/jsi/include"
     INTERFACE_LINK_LIBRARIES ""
 )
 endif()
@@ -19,8 +19,8 @@ endif()
 if(NOT TARGET ReactAndroid::reactnative)
 add_library(ReactAndroid::reactnative SHARED IMPORTED)
 set_target_properties(ReactAndroid::reactnative PROPERTIES
-    IMPORTED_LOCATION "C:/Users/Jai/AppData/Local/gradle-home/caches/9.3.1/transforms/3168756b9e4aeb28813b3f80f7bba0ca/workspace/transformed/jetified-react-android-0.86.0-release/prefab/modules/reactnative/libs/android.arm64-v8a/libreactnative.so"
-    INTERFACE_INCLUDE_DIRECTORIES "C:/Users/Jai/AppData/Local/gradle-home/caches/9.3.1/transforms/3168756b9e4aeb28813b3f80f7bba0ca/workspace/transformed/jetified-react-android-0.86.0-release/prefab/modules/reactnative/include"
+    IMPORTED_LOCATION "C:/gh/caches/9.3.1/transforms/3168756b9e4aeb28813b3f80f7bba0ca/workspace/transformed/jetified-react-android-0.86.0-release/prefab/modules/reactnative/libs/android.arm64-v8a/libreactnative.so"
+    INTERFACE_INCLUDE_DIRECTORIES "C:/gh/caches/9.3.1/transforms/3168756b9e4aeb28813b3f80f7bba0ca/workspace/transformed/jetified-react-android-0.86.0-release/prefab/modules/reactnative/include"
     INTERFACE_LINK_LIBRARIES ""
 )
 endif()
