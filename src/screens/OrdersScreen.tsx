@@ -223,3 +223,5 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '800',
     letterSpacing: 1 } });
+
+export default OrdersScreen;

@@ -93,3 +93,5 @@ const styles = StyleSheet.create({
     gap: 12 },
   emptyText: {
     fontSize: 13 } });
+
+export default NotificationsScreen;

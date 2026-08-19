@@ -1,4 +1,4 @@
-export const colors = {
+const themeColorsMap = {
   light: {
     background: '#FAF8F5',
     foreground: '#121110',
@@ -36,6 +36,15 @@ export const colors = {
     inputBg: '#1C1610',
   }
 };
+
+export const colors: typeof themeColorsMap = new Proxy(themeColorsMap, {
+  get(target, prop) {
+    if (typeof prop === 'string' && prop in target) {
+      return (target as any)[prop];
+    }
+    return target.light;
+  }
+});
 
 export type ThemeType = 'light' | 'dark';
 

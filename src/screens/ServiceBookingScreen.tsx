@@ -503,3 +503,5 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '800',
     letterSpacing: 1 } });
+
+export default ServiceBookingScreen;

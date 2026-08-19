@@ -226,3 +226,5 @@ const styles = StyleSheet.create({
     paddingVertical: 12 },
   loginText: {
     fontSize: 13 } });
+
+export default RegisterScreen;

@@ -8,6 +8,7 @@ import RootNavigator from './src/navigation/RootNavigator';
 
 export default function App() {
   const hydrated = useHydrateStores();
+  const { theme } = useThemeStore();
   const activeTheme = (theme && colors[theme]) ? theme : 'light';
   const activeColors = colors[activeTheme];
 

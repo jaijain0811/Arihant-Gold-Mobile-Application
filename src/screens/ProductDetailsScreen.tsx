@@ -943,3 +943,5 @@ const styles = StyleSheet.create({
     fontWeight: '900'
   }
 });
+
+export default ProductDetailsScreen;

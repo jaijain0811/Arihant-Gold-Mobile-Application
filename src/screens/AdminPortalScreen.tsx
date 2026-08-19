@@ -2544,3 +2544,5 @@ const styles = StyleSheet.create({
   settingLabel: {
     fontSize: 13,
     fontWeight: '700' } });
+
+export default AdminPortalScreen;

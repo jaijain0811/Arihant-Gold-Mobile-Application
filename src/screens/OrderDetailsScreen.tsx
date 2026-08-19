@@ -265,3 +265,5 @@ const styles = StyleSheet.create({
   totalVal: {
     fontSize: 15,
     fontWeight: '900' } });
+
+export default OrderDetailsScreen;

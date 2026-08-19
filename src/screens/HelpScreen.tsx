@@ -355,3 +355,5 @@ const styles = StyleSheet.create({
     letterSpacing: 1
   }
 });
+
+export default HelpScreen;
