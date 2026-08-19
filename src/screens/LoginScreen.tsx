@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
-  
   KeyboardAvoidingView,
   Platform,
   ScrollView
@@ -105,6 +104,10 @@ export const LoginScreen = ({ navigation }: any) => {
         setErrorMsg('Google Sign-In was cancelled.');
       } else if (e.code === statusCodes.IN_PROGRESS) {
         setErrorMsg('Google Sign-In is already in progress.');
+      } else if (e.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        setErrorMsg('Google Play Services is not available on this device.');
+      } else if (String(e.code) === '10' || e.code === statusCodes.DEVELOPER_ERROR) {
+        setErrorMsg('Google OAuth Config Error (Code 10): Please add Release SHA-1 (B8:2E:18:5B:39:ED:06:A3:1D:7A:4B:D6:D7:EB:FA:59:5A:7D:A2:A8) to Google Cloud Console for package com.arihantgold.app.');
       } else {
         setErrorMsg(e.response?.data?.message || e.message || 'Google OAuth Sign In failed.');
       }
@@ -220,16 +223,20 @@ export const LoginScreen = ({ navigation }: any) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1 },
+    flex: 1
+  },
   inner: {
-    flex: 1 },
+    flex: 1
+  },
   scroll: {
     paddingHorizontal: 24,
     paddingVertical: 40,
     flexGrow: 1,
-    justifyContent: 'center' },
+    justifyContent: 'center'
+  },
   header: {
-    marginBottom: 32 },
+    marginBottom: 32
+  },
   badgeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -238,27 +245,34 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 6,
     alignSelf: 'flex-start',
-    marginBottom: 8 },
+    marginBottom: 8
+  },
   badgeText: {
     fontSize: 10,
     fontWeight: '800',
-    letterSpacing: 0.5 },
+    letterSpacing: 0.5
+  },
   title: {
     fontSize: 24,
     fontWeight: '900',
     letterSpacing: 1.5,
-    marginBottom: 8 },
+    marginBottom: 8
+  },
   subtitle: {
     fontSize: 13,
-    lineHeight: 18 },
+    lineHeight: 18
+  },
   form: {
-    gap: 14 },
+    gap: 14
+  },
   fieldGroup: {
-    gap: 6 },
+    gap: 6
+  },
   label: {
     fontSize: 11,
     fontWeight: '800',
-    letterSpacing: 1 },
+    letterSpacing: 1
+  },
   inputWrapper: {
     height: 52,
     borderRadius: 12,
@@ -266,43 +280,54 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
-    gap: 12 },
+    gap: 12
+  },
   input: {
     flex: 1,
     fontSize: 14,
-    fontWeight: '600' },
+    fontWeight: '600'
+  },
   errorText: {
     fontSize: 12,
-    fontWeight: '600' },
+    fontWeight: '600'
+  },
   loginBtn: {
     height: 52,
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 4,
-    elevation: 3 },
+    elevation: 3
+  },
   googleBtn: {
     height: 52,
     borderRadius: 12,
     borderWidth: 1,
     justifyContent: 'center',
-    alignItems: 'center' },
+    alignItems: 'center'
+  },
   btnRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8 },
+    gap: 8
+  },
   loginBtnText: {
     fontSize: 14,
     fontWeight: '800',
-    letterSpacing: 1 },
+    letterSpacing: 1
+  },
   googleBtnText: {
     fontSize: 13,
     fontWeight: '800',
-    letterSpacing: 0.5 },
+    letterSpacing: 0.5
+  },
   registerLink: {
     alignItems: 'center',
-    paddingVertical: 10 },
+    paddingVertical: 10
+  },
   registerText: {
-    fontSize: 13 } });
+    fontSize: 13
+  }
+});
 
 export default LoginScreen;

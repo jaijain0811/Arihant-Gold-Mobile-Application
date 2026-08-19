@@ -41,7 +41,11 @@ export const ShopScreen = ({ route, navigation }: any) => {
       });
 
       if (res.success) {
-        setProducts(res.data || []);
+        let list = res.data || [];
+        if (sortOption === 'bestseller') {
+          list = list.filter((p: any) => (p.isBestSeller === 'Yes' || p.isBestSeller === true || p.isBestseller === true) && p.isBestSeller !== 'No');
+        }
+        setProducts(list);
       }
     } catch (e) {
       console.error('Error fetching shop products:', e);
@@ -149,9 +153,10 @@ export const ShopScreen = ({ route, navigation }: any) => {
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16, gap: 8 }}>
           {[
             { key: 'newest', label: '🔥 Newest First' },
+            { key: 'bestseller', label: '⭐ Bestsellers' },
             { key: 'price_asc', label: '💰 Price: Low to High' },
             { key: 'price_desc', label: '💎 Price: High to Low' },
-            { key: 'rating', label: '⭐ Top Rated' }
+            { key: 'rating', label: '👑 Top Rated' }
           ].map((sort) => {
             const isSel = sortOption === sort.key;
             return (

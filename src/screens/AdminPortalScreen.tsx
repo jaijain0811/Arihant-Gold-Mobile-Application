@@ -1506,6 +1506,47 @@ export const AdminPortalScreen = ({ navigation }: any) => {
                     ))}
                   </View>
 
+                  {/* Bestseller Toggle Control */}
+                  <View style={{ marginVertical: 8, gap: 6 }}>
+                    <Text style={[styles.label, { color: themeColors.mutedForeground }]}>BESTSELLER BADGE STATUS</Text>
+                    <View style={{ flexDirection: 'row', gap: 10 }}>
+                      <TouchableOpacity
+                        activeOpacity={0.88}
+                        onPress={() => setPBestSeller('No')}
+                        style={{
+                          flex: 1,
+                          paddingVertical: 10,
+                          borderRadius: 8,
+                          alignItems: 'center',
+                          backgroundColor: pBestSeller !== 'Yes' ? themeColors.accent : themeColors.card,
+                          borderColor: themeColors.border,
+                          borderWidth: 1
+                        }}
+                      >
+                        <Text style={{ fontSize: 12, fontWeight: '800', color: pBestSeller !== 'Yes' ? themeColors.accentForeground : themeColors.foreground }}>
+                          Standard Product (Default: No)
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        activeOpacity={0.88}
+                        onPress={() => setPBestSeller('Yes')}
+                        style={{
+                          flex: 1,
+                          paddingVertical: 10,
+                          borderRadius: 8,
+                          alignItems: 'center',
+                          backgroundColor: pBestSeller === 'Yes' ? '#EAB308' : themeColors.card,
+                          borderColor: themeColors.border,
+                          borderWidth: 1
+                        }}
+                      >
+                        <Text style={{ fontSize: 12, fontWeight: '800', color: pBestSeller === 'Yes' ? '#000000' : themeColors.foreground }}>
+                          ⭐ Bestseller ON
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+
                   <TouchableOpacity
                     onPress={handleCreateProduct}
                     style={[styles.addBtn, { backgroundColor: themeColors.accent }]}

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,11 +8,12 @@ import {
   Dimensions,
   TouchableOpacity,
   Modal,
-  TouchableWithoutFeedback
+  PanResponder,
+  Animated
 } from 'react-native';
 import { useThemeStore } from '../store/themeStore';
 import { colors } from '../theme';
-import { X, ZoomIn, ZoomOut, RefreshCw, Sparkles } from 'lucide-react-native';
+import { X, ZoomIn, ZoomOut, RefreshCw, Sparkles, Move } from 'lucide-react-native';
 
 interface SwipeGalleryProps {
   images: string[];
@@ -34,13 +35,157 @@ export const SwipeGallery: React.FC<SwipeGalleryProps> = ({ images }) => {
   const themeColors = colors[theme];
   const [activeIndex, setActiveIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [zoomScale, setZoomScale] = useState<number>(1);
 
+  // Animated values for pinch zoom & 360 pan
+  const scale = useRef(new Animated.Value(1)).current;
+  const panX = useRef(new Animated.Value(0)).current;
+  const panY = useRef(new Animated.Value(0)).current;
+
+  // Track raw numerical values for gesture math
+  const scaleVal = useRef<number>(1);
+  const panXVal = useRef<number>(0);
+  const panYVal = useRef<number>(0);
+
+  const [currentScaleDisplay, setCurrentScaleDisplay] = useState(1);
   const lastTapRef = useRef<number>(0);
+  const initialPinchDistRef = useRef<number>(0);
+  const initialScaleOnPinchRef = useRef<number>(1);
+
+  // Sync listener to update UI scale display & lock paging
+  useEffect(() => {
+    const scaleListener = scale.addListener(({ value }) => {
+      scaleVal.current = value;
+      setCurrentScaleDisplay(value);
+    });
+    const xListener = panX.addListener(({ value }) => {
+      panXVal.current = value;
+    });
+    const yListener = panY.addListener(({ value }) => {
+      panYVal.current = value;
+    });
+
+    return () => {
+      scale.removeListener(scaleListener);
+      panX.removeListener(xListener);
+      panY.removeListener(yListener);
+    };
+  }, []);
 
   const rawList = Array.isArray(images) && images.length > 0 ? images : [DEFAULT_IMAGE];
   const displayImages = rawList.map(extractImageUrl).filter(Boolean);
   if (displayImages.length === 0) displayImages.push(DEFAULT_IMAGE);
+
+  const resetTransform = () => {
+    Animated.parallel([
+      Animated.spring(scale, { toValue: 1, useNativeDriver: true }),
+      Animated.spring(panX, { toValue: 0, useNativeDriver: true }),
+      Animated.spring(panY, { toValue: 0, useNativeDriver: true }),
+    ]).start();
+  };
+
+  const setZoomScaleAnimated = (targetScale: number) => {
+    const bounded = Math.max(1, Math.min(targetScale, 5.0));
+    Animated.spring(scale, { toValue: bounded, useNativeDriver: true, tension: 40, friction: 7 }).start();
+    if (bounded === 1) {
+      Animated.parallel([
+        Animated.spring(panX, { toValue: 0, useNativeDriver: true }),
+        Animated.spring(panY, { toValue: 0, useNativeDriver: true }),
+      ]).start();
+    }
+  };
+
+  const handleDoubleTap = () => {
+    const now = Date.now();
+    if (now - lastTapRef.current < 300) {
+      if (scaleVal.current > 1.2) {
+        resetTransform();
+      } else {
+        setZoomScaleAnimated(2.8);
+      }
+    }
+    lastTapRef.current = now;
+  };
+
+  // Distance helper for pinch-to-zoom
+  const getTouchesDistance = (touches: any[]) => {
+    const [t1, t2] = touches;
+    const dx = t1.pageX - t2.pageX;
+    const dy = t1.pageY - t2.pageY;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+
+  // PanResponder for smooth Pinch Zoom + 360-degree Drag Pan
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: (evt, gestureState) => {
+        panX.setOffset(panXVal.current);
+        panY.setOffset(panYVal.current);
+        panX.setValue(0);
+        panY.setValue(0);
+
+        if (evt.nativeEvent.touches.length === 2) {
+          initialPinchDistRef.current = getTouchesDistance(evt.nativeEvent.touches);
+          initialScaleOnPinchRef.current = scaleVal.current;
+        } else if (evt.nativeEvent.touches.length === 1) {
+          handleDoubleTap();
+        }
+      },
+      onPanResponderMove: (evt, gestureState) => {
+        if (evt.nativeEvent.touches.length === 2) {
+          // Pinch Gesture
+          const currentDist = getTouchesDistance(evt.nativeEvent.touches);
+          if (initialPinchDistRef.current > 0) {
+            const factor = currentDist / initialPinchDistRef.current;
+            const newScale = Math.max(1, Math.min(initialScaleOnPinchRef.current * factor, 5.0));
+            scale.setValue(newScale);
+          }
+        } else if (evt.nativeEvent.touches.length === 1 && scaleVal.current > 1.05) {
+          // Pan/Drag Gesture (Only when zoomed)
+          const maxPanX = (width * (scaleVal.current - 1)) / 2;
+          const maxPanY = (height * (scaleVal.current - 1)) / 2;
+
+          const nextX = panXVal.current + gestureState.dx;
+          const nextY = panYVal.current + gestureState.dy;
+
+          // Smooth drag with soft boundary resistance
+          if (Math.abs(nextX) < maxPanX * 1.5) {
+            panX.setValue(gestureState.dx);
+          }
+          if (Math.abs(nextY) < maxPanY * 1.5) {
+            panY.setValue(gestureState.dy);
+          }
+        }
+      },
+      onPanResponderRelease: () => {
+        panX.flattenOffset();
+        panY.flattenOffset();
+
+        // Snap scale back if zoomed out below 1x
+        if (scaleVal.current < 1) {
+          resetTransform();
+        } else {
+          // Snap pan back if dragged too far beyond image boundaries
+          const maxPanX = (width * (scaleVal.current - 1)) / 2;
+          const maxPanY = (height * (scaleVal.current - 1)) / 2;
+
+          let targetX = panXVal.current;
+          let targetY = panYVal.current;
+
+          if (targetX > maxPanX) targetX = maxPanX;
+          if (targetX < -maxPanX) targetX = -maxPanX;
+          if (targetY > maxPanY) targetY = maxPanY;
+          if (targetY < -maxPanY) targetY = -maxPanY;
+
+          Animated.parallel([
+            Animated.spring(panX, { toValue: targetX, useNativeDriver: true }),
+            Animated.spring(panY, { toValue: targetY, useNativeDriver: true }),
+          ]).start();
+        }
+      },
+    })
+  ).current;
 
   const handleScroll = (event: any) => {
     const slide = Math.round(event.nativeEvent.contentOffset.x / width);
@@ -49,31 +194,9 @@ export const SwipeGallery: React.FC<SwipeGalleryProps> = ({ images }) => {
     }
   };
 
-  const handleDoubleTap = () => {
-    const now = Date.now();
-    const DOUBLE_TAP_DELAY = 300;
-    if (now - lastTapRef.current < DOUBLE_TAP_DELAY) {
-      // Toggle Zoom between 1x and 2.5x
-      setZoomScale((prev) => (prev > 1.2 ? 1 : 2.5));
-    }
-    lastTapRef.current = now;
-  };
-
-  const handleZoomIn = () => {
-    setZoomScale((prev) => Math.min(prev + 0.75, 4.0));
-  };
-
-  const handleZoomOut = () => {
-    setZoomScale((prev) => Math.max(prev - 0.75, 1.0));
-  };
-
-  const handleResetZoom = () => {
-    setZoomScale(1.0);
-  };
-
   const openModal = (index: number) => {
     setActiveIndex(index);
-    setZoomScale(1);
+    resetTransform();
     setIsModalOpen(true);
   };
 
@@ -96,7 +219,7 @@ export const SwipeGallery: React.FC<SwipeGalleryProps> = ({ images }) => {
             <Image source={{ uri: img }} style={styles.image} resizeMode="cover" />
             <View style={[styles.zoomHint, { backgroundColor: 'rgba(0,0,0,0.65)' }]}>
               <ZoomIn size={14} color="#EAB308" />
-              <Text style={styles.zoomText}>Tap to Zoom</Text>
+              <Text style={styles.zoomText}>Pinch / Tap to Zoom</Text>
             </View>
           </TouchableOpacity>
         ))}
@@ -125,81 +248,65 @@ export const SwipeGallery: React.FC<SwipeGalleryProps> = ({ images }) => {
         </Text>
       </View>
 
-      {/* Fullscreen Interactive Multi-level Zoom Modal */}
+      {/* Fullscreen Interactive Pinch-to-Zoom & Pan Modal */}
       <Modal visible={isModalOpen} transparent animationType="fade" onRequestClose={() => setIsModalOpen(false)}>
         <View style={styles.modalBg}>
           {/* Top Bar Header */}
           <View style={styles.modalHeader}>
             <View style={styles.zoomBadge}>
               <Sparkles size={12} color="#EAB308" />
-              <Text style={styles.zoomBadgeText}>{zoomScale.toFixed(1)}x ZOOM</Text>
+              <Text style={styles.zoomBadgeText}>{currentScaleDisplay.toFixed(1)}x ZOOM</Text>
             </View>
-            <Text style={styles.modalTitleText}>Double Tap or use +/- to Zoom</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+              {currentScaleDisplay > 1.05 && <Move size={12} color="#94A3B8" />}
+              <Text style={styles.modalTitleText}>
+                {currentScaleDisplay > 1.05 ? 'Drag in any direction' : 'Pinch or Double-Tap to Zoom'}
+              </Text>
+            </View>
             <TouchableOpacity style={styles.closeBtn} onPress={() => setIsModalOpen(false)}>
               <X size={24} color="#FFFFFF" />
             </TouchableOpacity>
           </View>
 
-          {/* Main Zoom Display */}
-          <ScrollView
-            horizontal
-            pagingEnabled={zoomScale === 1}
-            showsHorizontalScrollIndicator={false}
-            onMomentumScrollEnd={(e) => {
-              const slide = Math.round(e.nativeEvent.contentOffset.x / width);
-              if (slide !== activeIndex) {
-                setActiveIndex(slide);
-                setZoomScale(1);
-              }
-            }}
-          >
-            {displayImages.map((img, i) => (
-              <View key={i} style={styles.modalSlide}>
-                <ScrollView
-                  horizontal={zoomScale > 1}
-                  directionalLockEnabled={false}
-                  showsHorizontalScrollIndicator={false}
-                  showsVerticalScrollIndicator={false}
-                  contentContainerStyle={styles.zoomContainer}
-                >
-                  <TouchableWithoutFeedback onPress={handleDoubleTap}>
-                    <View style={styles.imageFrame}>
-                      <Image
-                        source={{ uri: img }}
-                        style={[
-                          styles.modalImage,
-                          {
-                            transform: [{ scale: zoomScale }],
-                            width: width * 0.95 * (zoomScale > 1 ? zoomScale * 0.8 : 1),
-                            height: height * 0.7 * (zoomScale > 1 ? zoomScale * 0.8 : 1),
-                          },
-                        ]}
-                        resizeMode="contain"
-                      />
-                    </View>
-                  </TouchableWithoutFeedback>
-                </ScrollView>
-              </View>
-            ))}
-          </ScrollView>
+          {/* Main Interactive Zoom Display */}
+          <View style={styles.modalSlide} {...panResponder.panHandlers}>
+            <Animated.View
+              style={[
+                styles.imageFrame,
+                {
+                  transform: [
+                    { scale },
+                    { translateX: panX },
+                    { translateY: panY }
+                  ]
+                }
+              ]}
+            >
+              <Image
+                source={{ uri: displayImages[activeIndex] }}
+                style={styles.modalImage}
+                resizeMode="contain"
+              />
+            </Animated.View>
+          </View>
 
           {/* Bottom Zoom Toolbar Controls */}
           <View style={styles.zoomToolbar}>
-            <TouchableOpacity style={styles.toolbarBtn} onPress={handleZoomOut}>
+            <TouchableOpacity style={styles.toolbarBtn} onPress={() => setZoomScaleAnimated(scaleVal.current - 0.75)}>
               <ZoomOut size={18} color="#FFFFFF" />
               <Text style={styles.toolbarBtnText}>Zoom Out</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.toolbarBtn, styles.toolbarBtnPrimary]} onPress={handleResetZoom}>
+            <TouchableOpacity style={[styles.toolbarBtn, styles.toolbarBtnPrimary]} onPress={resetTransform}>
               <RefreshCw size={16} color="#000000" />
               <Text style={[styles.toolbarBtnText, { color: '#000000', fontWeight: '800' }]}>Reset 1x</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.toolbarBtn, { backgroundColor: '#EAB308' }]} onPress={() => setZoomScale(2.5)}>
-              <Text style={{ color: '#000000', fontSize: 12, fontWeight: '900' }}>2.5x</Text>
+            <TouchableOpacity style={[styles.toolbarBtn, { backgroundColor: '#EAB308' }]} onPress={() => setZoomScaleAnimated(2.8)}>
+              <Text style={{ color: '#000000', fontSize: 12, fontWeight: '900' }}>2.8x</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.toolbarBtn} onPress={handleZoomIn}>
+            <TouchableOpacity style={styles.toolbarBtn} onPress={() => setZoomScaleAnimated(scaleVal.current + 0.75)}>
               <ZoomIn size={18} color="#FFFFFF" />
               <Text style={styles.toolbarBtnText}>Zoom In</Text>
             </TouchableOpacity>
@@ -312,22 +419,20 @@ const styles = StyleSheet.create({
   },
   modalSlide: {
     width,
-    height: height * 0.75,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  zoomContainer: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  imageFrame: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
   },
+  imageFrame: {
+    width: width * 0.95,
+    height: height * 0.72,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   modalImage: {
-    alignSelf: 'center',
+    width: '100%',
+    height: '100%',
   },
   zoomToolbar: {
     flexDirection: 'row',
