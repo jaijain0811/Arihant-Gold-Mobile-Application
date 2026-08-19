@@ -30,7 +30,8 @@ const Stack = createNativeStackNavigator();
 
 export const RootNavigator = () => {
   const { theme, loadStoredTheme } = useThemeStore();
-  const themeColors = colors[theme];
+  const activeTheme = (theme && colors[theme]) ? theme : 'light';
+  const themeColors = colors[activeTheme];
 
   const { isValidated, isLoading: accessLoading, checkAccessStatus } = useAccessStore();
   const { isAuthenticated, isLoading: authLoading, loadStoredAuth, user } = useAuthStore();
