@@ -29,6 +29,11 @@ class MainApplication : Application(), ReactApplication {
   override fun onCreate() {
     super.onCreate()
     SoLoader.init(this, false)
+    try {
+      SoLoader.loadLibrary("hermestooling")
+    } catch (e: Throwable) {
+      e.printStackTrace()
+    }
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
       load()
     }
